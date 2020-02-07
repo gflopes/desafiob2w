@@ -6,13 +6,11 @@ const options = {
   useNewUrlParser: true,
   useCreateIndex: true,
   poolSize: 5,
-  reconnectTries: 10,
-  reconnectInterval: 500,
 }
 
 const url = process.env.MONGOLAB_URI
   ? process.env.MONGOLAB_URI
-  : 'mongodb://localhost/db_desafio_bw2'
+  : 'mongodb://localhost:17017/db_desafio_bw2'
 
 mongoose.connect(url, options)
 

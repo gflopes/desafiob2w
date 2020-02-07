@@ -4,6 +4,12 @@ const mongoose = restful.mongoose
 const usuarioSchema = new mongoose.Schema({
   email: {
     type: String,
+    max: 100,
+    required: true,
+  },
+  nome: {
+    type: String,
+    max: 100,
     required: true,
   },
   senha: {
@@ -13,10 +19,6 @@ const usuarioSchema = new mongoose.Schema({
     required: true,
   },
   data_criacao: {
-    type: Date,
-    default: Date.now,
-  },
-  data_atualizacao: {
     type: Date,
     default: Date.now,
   },

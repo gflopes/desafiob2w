@@ -69,9 +69,8 @@ const login = (req, res) => {
 
 const signup = (req, res, next) => {
   const email = req.body.email || ''
+  const nome = req.body.nome || ''
   const senha = req.body.senha || ''
-
-  console.log('inclusao de novo usuario')
 
   if (!email.match(emailRegex)) {
     return res.status(400).send({
@@ -81,8 +80,6 @@ const signup = (req, res, next) => {
 
   const salt = bcrypt.genSaltSync()
   const senhaHash = bcrypt.hashSync(senha, salt)
-
-  console.log('email: ' + email)
 
   Usuario.findOne(
     {
@@ -98,6 +95,7 @@ const signup = (req, res, next) => {
       } else {
         const newUser = new Usuario({
           email,
+          nome,
           senha: senhaHash,
         })
         newUser.save(err => {
