@@ -67,7 +67,7 @@ const login = (req, res) => {
   )
 }
 
-const signup = (req, res, next) => {
+const signup = (req, res) => {
   const email = req.body.email || ''
   const nome = req.body.nome || ''
   const senha = req.body.senha || ''
@@ -102,7 +102,9 @@ const signup = (req, res, next) => {
           if (err) {
             return sendErrorsFromDB(res, err)
           } else {
-            login(req, res, next)
+            return res.status(200).send({
+              mensagem: 'Usuário cadastrado com sucesso',
+            })
           }
         })
       }

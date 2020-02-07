@@ -1,5 +1,7 @@
 const _ = require('lodash')
+const request = require('request')
 const Planeta = require('../../model/planeta')
+const env = require('../../.env')
 
 Planeta.methods(['get', 'post', 'put', 'delete'])
 Planeta.updateOptions({
@@ -26,6 +28,20 @@ function parseErrors(nodeRestfulErrors) {
   const mensagem = []
   _.forIn(nodeRestfulErrors, error => mensagem.push(error.message))
   return mensagem
+}
+
+async function getAparicoesFilme(planeta) {
+  await request(env.URL_SWAPI + '/planets/?name=' + planeta, function(
+    error,
+    response,
+    body
+  ) {
+    console.log('error:', error)
+    console.log('statusCode:', response && response.statusCode)
+    var retorno = JSON.parse(body)
+    console.log('quantidade ' + retorno['count'])
+    return retorno['count']
+  })
 }
 
 const add = (req, res) => {
@@ -84,11 +100,14 @@ const findById = (req, res) => {
 
     const { _id, nome, clima, terreno } = planeta
 
+    let quantidadeAparicoes = getAparicoesFilme(nome)
+
     return res.status(200).json({
       _id,
       nome,
       clima,
       terreno,
+      quantidadeAparicoes,
     })
   })
 }
@@ -109,11 +128,14 @@ const findByName = (req, res) => {
 
     const { _id, nome, clima, terreno } = planeta
 
+    let quantidadeAparicoes = getAparicoesFilme(nome)
+
     return res.status(200).json({
       _id,
       nome,
       clima,
       terreno,
+      quantidadeAparicoes,
     })
   })
 }

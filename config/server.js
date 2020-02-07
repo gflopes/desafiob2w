@@ -6,21 +6,23 @@ const helmet = require('helmet')
 const express = require('express')
 const allowCors = require('./cors')
 const queryParser = require('express-query-int')
-const server = express()
+const morgan = require('morgan')
+const app = express()
 
-server.use(
+app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 )
-server.use(bodyParser.json())
-server.use(allowCors)
-server.use(queryParser())
-server.use(helmet())
-server.disable('x-powered-by')
+app.use(bodyParser.json())
+app.use(allowCors)
+app.use(queryParser())
+app.use(helmet())
+app.disable('x-powered-by')
+app.use(morgan('combined'))
 
-server.listen(porta, host, function() {
+app.listen(porta, host, function() {
   console.log(`API Desafio está rodando na porta ${porta}.`)
 })
 
-module.exports = server
+module.exports = app
