@@ -36,6 +36,7 @@ async function login(req, res) {
       if (err) {
         return sendErrorsFromDB(res, err)
       } else if (usuario) {
+        console.log('senha: ' + senha)
         if (bcrypt.compareSync(senha, usuario.senha)) {
           const { email } = usuario
 

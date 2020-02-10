@@ -8,6 +8,10 @@ const allowCors = require('./cors')
 const queryParser = require('express-query-int')
 const morgan = require('morgan')
 const cronPopulateCountFilms = require('../schedule/cronPopulateCountFilms')
+
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('../swagger.json')
+
 const app = express()
 
 app.use(
@@ -21,6 +25,8 @@ app.use(queryParser())
 app.use(helmet())
 app.disable('x-powered-by')
 app.use(morgan('combined'))
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 cronPopulateCountFilms.start()
 

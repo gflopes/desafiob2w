@@ -5,12 +5,6 @@ module.exports = function(server) {
   const api = express.Router()
   server.use('/api', api)
 
-  api.get('/', function(req, res) {
-    res.json({
-      mensagem: 'Seja Bem-Vindo a API Desafio',
-    })
-  })
-
   const AuthService = require('../api/usuario/authService')
   const PlanetaService = require('../api/planeta/planetaService')
 
