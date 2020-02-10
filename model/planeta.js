@@ -1,5 +1,6 @@
 const restful = require('node-restful')
 const mongoose = restful.mongoose
+const mongoosePaginate = require('mongoose-paginate')
 
 const planetaSchema = new mongoose.Schema({
   nome: {
@@ -17,6 +18,14 @@ const planetaSchema = new mongoose.Schema({
     max: 100,
     required: true,
   },
+  filmes: {
+    type: Number,
+    max: 5,
+    required: false,
+    default: 0,
+  },
 })
+
+planetaSchema.plugin(mongoosePaginate)
 
 module.exports = restful.model('Planeta', planetaSchema)

@@ -7,6 +7,7 @@ const express = require('express')
 const allowCors = require('./cors')
 const queryParser = require('express-query-int')
 const morgan = require('morgan')
+const cronPopulateCountFilms = require('../schedule/cronPopulateCountFilms')
 const app = express()
 
 app.use(
@@ -20,6 +21,8 @@ app.use(queryParser())
 app.use(helmet())
 app.disable('x-powered-by')
 app.use(morgan('combined'))
+
+cronPopulateCountFilms.start()
 
 app.listen(porta, host, function() {
   console.log(`API Desafio está rodando na porta ${porta}.`)

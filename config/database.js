@@ -10,7 +10,7 @@ const options = {
 
 const url = process.env.MONGOLAB_URI
   ? process.env.MONGOLAB_URI
-  : 'mongodb://desafio-nodejs:accenture2019@ds353378.mlab.com:53378/heroku_drz5zhx6' //'mongodb://localhost:17017/db_desafio_bw2'
+  : 'mongodb://localhost:27017/db_desafio_bw2' // 'mongodb://desafio-nodejs:accenture2019@ds353378.mlab.com:53378/heroku_drz5zhx6'
 
 mongoose.connect(url, options)
 

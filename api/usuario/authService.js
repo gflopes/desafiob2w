@@ -14,7 +14,17 @@ const sendErrorsFromDB = (res, dbErrors) => {
   })
 }
 
-const login = (req, res) => {
+async function update(usuario) {
+  usuario.data_ultimo_login = new Date()
+  await usuario.save(function(err) {
+    if (!err) {
+      return true
+    }
+    console.log('erro: ' + err)
+  })
+}
+
+async function login(req, res) {
   const email = req.body.email || ''
   const senha = req.body.senha || ''
 
@@ -26,33 +36,30 @@ const login = (req, res) => {
       if (err) {
         return sendErrorsFromDB(res, err)
       } else if (usuario) {
-        const token = jwt.sign(
-          {
-            email: email,
-          },
-          env.authSecret,
-          {
-            expiresIn: 604800,
-          }
-        )
-
         if (bcrypt.compareSync(senha, usuario.senha)) {
           const { email } = usuario
 
-          usuario.data_ultimo_login = new Date()
-          usuario.save(function(err) {
-            if (err) {
-              return res.status(500).send({
-                mensagem:
-                  'Erro na atualização da data de último login do usuário',
-              })
+          const token = jwt.sign(
+            {
+              email: email,
+            },
+            env.authSecret,
+            {
+              expiresIn: 604800,
             }
-          })
+          )
 
-          return res.json({
-            email,
-            token,
-          })
+          if (update(usuario)) {
+            return res.status(200).send({
+              email,
+              token,
+            })
+          } else {
+            return res.status(500).send({
+              mensagem:
+                'Erro na atualização da data de último login do usuário',
+            })
+          }
         } else {
           return res.status(401).send({
             mensagem: 'Usuário e/ou Senha inválidos',
