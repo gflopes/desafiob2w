@@ -18,7 +18,7 @@ function sendErrorsOrNext(req, res, next) {
 
   if (bundle.errors) {
     var mensagem = parseErrors(bundle.errors)
-    res.status(500).send({
+    res.status(500).json({
       mensagem,
     })
   } else {
@@ -43,11 +43,11 @@ const add = (req, res) => {
     },
     function(err, planeta) {
       if (err) {
-        res.status(500).send({
+        res.status(500).json({
           mensagem: err,
         })
       } else if (planeta) {
-        return res.status(400).send({
+        return res.status(400).json({
           mensagem: 'Planeta já cadastrado.',
         })
       } else {
@@ -56,13 +56,14 @@ const add = (req, res) => {
           clima,
           terreno,
         })
-        newPlaneta.save(err => {
+        newPlaneta.save(function(err, planeta) {
           if (err) {
-            res.status(500).send({
+            res.status(500).json({
               mensagem: err,
             })
           } else {
-            return res.status(200).send({
+            return res.status(201).json({
+              _id: planeta._id,
               mensagem: 'Planeta cadastrado com sucesso.',
             })
           }
@@ -75,20 +76,21 @@ const add = (req, res) => {
 const findById = (req, res) => {
   Planeta.findById(req.params.id, async function(err, planeta) {
     if (err) {
-      return res.status(500).send({
+      return res.status(500).json({
         mensagem: err,
       })
     }
 
     if (!planeta) {
-      return res.status(404).send({
+      return res.status(404).json({
         mensagem: 'Planeta não encontrado',
       })
     }
 
     const { _id, nome, clima, terreno } = planeta
-    const filmes = await getCountFilms(nome)
-    return res.status(200).send({
+    let filmes = await getCountFilms(nome)
+    filmes = filmes === undefined ? 0 : filmes
+    return res.status(200).json({
       _id,
       nome,
       clima,
@@ -101,24 +103,25 @@ const findById = (req, res) => {
 const findByName = (req, res) => {
   Planeta.findOne(
     {
-      nome: req.query.name,
+      nome: req.query.valor,
     },
     async function(err, planeta) {
       if (err) {
-        return res.status(500).send({
+        return res.status(500).json({
           mensagem: err,
         })
       }
 
       if (!planeta) {
-        return res.status(500).send({
+        return res.status(404).json({
           mensagem: 'Planeta não encontrado',
         })
       }
 
       const { _id, nome, clima, terreno } = planeta
-      const filmes = await getCountFilms(nome)
-      return res.status(200).send({
+      let filmes = await getCountFilms(nome)
+      filmes = filmes === undefined ? 0 : filmes
+      return res.status(200).json({
         _id,
         nome,
         clima,
@@ -130,9 +133,9 @@ const findByName = (req, res) => {
 }
 
 const deletePlaneta = (req, res) => {
-  Planeta.findOneAndDelete(req.params.id, function(err) {
+  Planeta.findByIdAndDelete(req.params.id, function(err) {
     if (err) {
-      return res.status(500).send({
+      return res.status(500).json({
         mensagem: err,
       })
     }
@@ -154,7 +157,7 @@ const list = async (req, res) => {
     .limit(pageSize)
     .exec(async function(err, result) {
       if (err) {
-        res.status(500).send({
+        res.status(500).json({
           mensagem: 'Erro ao listar os planetas cadastrados',
         })
       }
@@ -166,7 +169,7 @@ const list = async (req, res) => {
           planetas.push(planeta)
         }
       )
-      res.status(200).send(planetas)
+      res.status(200).json(planetas)
     })
 }
 

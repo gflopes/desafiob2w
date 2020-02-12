@@ -11,12 +11,16 @@ module.exports = function(server) {
   api.post('/login', AuthService.login)
   api.post('/signup', AuthService.signup)
 
-  api.post('/planeta/add', jwtValidate.validateToken, PlanetaService.add)
-  api.get('/planeta/:id', jwtValidate.validateToken, PlanetaService.findById)
-  api.get('/planeta', jwtValidate.validateToken, PlanetaService.findByName)
+  api.post('/planetas', jwtValidate.validateToken, PlanetaService.add)
+  api.get('/planetas/:id', jwtValidate.validateToken, PlanetaService.findById)
+  api.post(
+    '/planetas/busca/nome',
+    jwtValidate.validateToken,
+    PlanetaService.findByName
+  )
   api.get('/planetas', jwtValidate.validateToken, PlanetaService.list)
   api.delete(
-    '/planeta/:id',
+    '/planetas/:id',
     jwtValidate.validateToken,
     PlanetaService.deletePlaneta
   )

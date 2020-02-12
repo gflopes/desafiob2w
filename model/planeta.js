@@ -18,12 +18,6 @@ const planetaSchema = new mongoose.Schema({
     max: 100,
     required: true,
   },
-  filmes: {
-    type: Number,
-    max: 5,
-    required: false,
-    default: 0,
-  },
 })
 
 planetaSchema.plugin(mongoosePaginate)

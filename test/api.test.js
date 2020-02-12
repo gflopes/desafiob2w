@@ -12,8 +12,10 @@ beforeAll(async () => {
 
 describe('Testes - API Planetas', function() {
   let token = ''
+  let idPlaneta = ''
+  let nomePlaneta = ''
 
-  it('signup usuario', function(done) {
+  it('/POST signup usuario', function(done) {
     request(app)
       .post('/api/signup')
       .send({
@@ -21,14 +23,14 @@ describe('Testes - API Planetas', function() {
         senha: 'Teste1$',
         nome: 'teste1',
       })
-      .expect(200)
+      .expect(201)
       .end(function(err) {
         if (err) return done(err)
         done()
       })
   })
 
-  it('login usuario', async () => {
+  it('/POST login usuario', async () => {
     const res = await request(app)
       .post('/api/login')
       .send({
@@ -39,19 +41,45 @@ describe('Testes - API Planetas', function() {
     expect(res.statusCode).toEqual(200)
   })
 
-  it('add planeta', function(done) {
-    request(app)
-      .post('/api/planeta/add')
+  it('/POST add planeta', async () => {
+    const res = await request(app)
+      .post('/api/planetas')
       .set('Authorization', 'Bearer ' + token)
       .send({
         nome: 'Teste',
-        clima: 'Quente',
-        terreno: 'Rochoso',
+        clima: 'Teste',
+        terreno: 'Teste',
       })
-      .expect(200)
-      .end(function(err) {
-        if (err) return done(err)
-        done()
-      })
+    idPlaneta = res.body._id
+    expect(res.statusCode).toEqual(201)
+  })
+
+  it('/GET find planeta by id', async () => {
+    const res = await request(app)
+      .get('/api/planetas/' + idPlaneta)
+      .set('Authorization', 'Bearer ' + token)
+    nomePlaneta = res.body.nome
+    expect(res.statusCode).toEqual(200)
+  })
+
+  it('/GET find planeta by name', async () => {
+    const res = await request(app)
+      .post('/api/planetas/busca/nome/?valor=' + nomePlaneta)
+      .set('Authorization', 'Bearer ' + token)
+    expect(res.statusCode).toEqual(200)
+  })
+
+  it('/GET list planeta', async () => {
+    const res = await request(app)
+      .get('/api/planetas')
+      .set('Authorization', 'Bearer ' + token)
+    expect(res.statusCode).toEqual(200)
+  })
+
+  it('/DELETE remove planeta', async () => {
+    const res = await request(app)
+      .delete('/api/planetas/' + idPlaneta)
+      .set('Authorization', 'Bearer ' + token)
+    expect(res.statusCode).toEqual(200)
   })
 })

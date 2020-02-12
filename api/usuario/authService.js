@@ -36,7 +36,6 @@ async function login(req, res) {
       if (err) {
         return sendErrorsFromDB(res, err)
       } else if (usuario) {
-        console.log('senha: ' + senha)
         if (bcrypt.compareSync(senha, usuario.senha)) {
           const { email } = usuario
 
@@ -51,23 +50,23 @@ async function login(req, res) {
           )
 
           if (update(usuario)) {
-            return res.status(200).send({
+            return res.status(200).json({
               email,
               token,
             })
           } else {
-            return res.status(500).send({
+            return res.status(500).json({
               mensagem:
                 'Erro na atualização da data de último login do usuário',
             })
           }
         } else {
-          return res.status(401).send({
+          return res.status(401).json({
             mensagem: 'Usuário e/ou Senha inválidos',
           })
         }
       } else {
-        return res.status(404).send({
+        return res.status(404).json({
           mensagem: 'Usuário e/ou Senha inválidos',
         })
       }
@@ -81,7 +80,7 @@ const signup = (req, res) => {
   const senha = req.body.senha || ''
 
   if (!email.match(emailRegex)) {
-    return res.status(400).send({
+    return res.status(400).json({
       mensagem: 'O e-mail informado está inválido',
     })
   }
@@ -97,7 +96,7 @@ const signup = (req, res) => {
       if (err) {
         return sendErrorsFromDB(res, err)
       } else if (usuario) {
-        return res.status(400).send({
+        return res.status(400).json({
           mensagem: 'Email já existente.',
         })
       } else {
@@ -110,7 +109,7 @@ const signup = (req, res) => {
           if (err) {
             return sendErrorsFromDB(res, err)
           } else {
-            return res.status(200).send({
+            return res.status(201).json({
               mensagem: 'Usuário cadastrado com sucesso',
             })
           }
