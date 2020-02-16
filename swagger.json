@@ -1,23 +1,359 @@
 {
   "swagger": "2.0",
   "info": {
+    "description": "Planetas API - B2W Desafio",
     "version": "1.0.0",
-    "title": "Planetas API",
-    "description": "Desafio Planetas API",
-    "license": {
-      "name": "MIT",
-      "url": "https://opensource.org/licenses/MIT"
-    }
+    "title": "Swagger - API Planetas"
   },
-  "host": "localhost:3003",
-  "basePath": "/api/v1",
+  "host": "localhost:3000",
+  "basePath": "/api",
   "schemes": [
     "http"
   ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ]
+  "paths": {
+    "/signup": {
+      "post": {
+        "tags": [
+          "usuario"
+        ],
+        "summary": "Adicionar um novo usuário",
+        "description": "Adicionar um novo usuário",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "JSON para adicionar um usuário",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Usuario"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Usuário cadastrado com sucesso"
+          },
+          "400": {
+            "description": "Email já cadastrado"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "usuario"
+        ],
+        "summary": "Efetuar o login do usuário na API",
+        "description": "Efetuar o login do usuário na API",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "JSON para efetuar o login de um usuário",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Usuario"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UsuarioAutenticado"
+            }
+          },
+          "401": {
+            "description": "Usuário e/ou Senha inválidos"
+          },
+          "404": {
+            "description": "Usuário e/ou Senha inválidos"
+          },
+          "500": {
+            "description": "Erro na atualização da data de último login do usuário"
+          }
+        }
+      }
+    },
+    "/planetas": {
+      "post": {
+        "tags": [
+          "planetas"
+        ],
+        "summary": "Adicionar um novo planeta",
+        "description": "Adicionar um novo planeta",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "JSON para adicionar um novo planeta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Planeta"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Planeta cadastrado com sucesso."
+          },
+          "400": {
+            "description": "Planeta já cadastrado."
+          },
+          "500": {
+            "description": "Erro ao adicionar um novo planeta"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "planetas"
+        ],
+        "summary": "Listar os planetas cadastrados",
+        "description": "Listar os planetas cadastrados",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Página a ser listada",
+            "type": "integer",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Planetas"
+            }
+          },
+          "500": {
+            "description": "Erro ao listar os planetas cadastrados"
+          }
+        }
+      }
+    },
+    "/planetas/{id}": {
+      "get": {
+        "tags": [
+          "planetas"
+        ],
+        "summary": "Pesquisar planetas por ID",
+        "description": "Pesquisar planetas por ID",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do planeta",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DetalhePlaneta"
+            }
+          },
+          "404": {
+            "description": "Planeta não encontrado"
+          },
+          "500": {
+            "description": "Erro ao buscar o planeta"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "planetas"
+        ],
+        "summary": "Excluir um planeta por ID",
+        "description": "Excluir um planeta por ID",
+        "produces": [
+          "application/xml"
+        ],
+        "consumes": [
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do planeta",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Planeta excluído com sucesso"
+          },
+          "404": {
+            "description": "Planeta não encontrado"
+          },
+          "500": {
+            "description": "Erro ao excluir o planeta"
+          }
+        }
+      }
+    },
+    "/planetas/busca/nome": {
+      "get": {
+        "tags": [
+          "planetas"
+        ],
+        "summary": "Pesquisar planetas por Nome",
+        "description": "Pesquisar planetas por Nome",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "valor",
+            "in": "path",
+            "description": "Nome do planeta",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DetalhePlaneta"
+            }
+          },
+          "404": {
+            "description": "Planeta não encontrado"
+          },
+          "500": {
+            "description": "Erro ao buscar o planeta"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Planeta": {
+      "type": "object",
+      "properties": {
+        "nome": {
+          "type": "string"
+        },
+        "clima": {
+          "type": "string"
+        },
+        "terreno": {
+          "type": "string"
+        }
+      }
+    },
+    "DetalhePlaneta": {
+      "type": "object",
+      "properties": {
+        "nome": {
+          "type": "string"
+        },
+        "clima": {
+          "type": "string"
+        },
+        "terreno": {
+          "type": "string"
+        },
+        "filmes": {
+          "type": "integer"
+        }
+      }
+    },
+    "ListaPlaneta": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/DetalhePlaneta"
+      }
+    },
+    "Planetas": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer"
+        },
+        "totalPages": {
+          "type": "integer"
+        },
+        "page": {
+          "type": "integer"
+        },
+        "nextPage": {
+          "type": "integer"
+        },
+        "data": {
+          "$ref": "#/definitions/ListaPlaneta"
+        }
+      }
+    },
+    "Usuario": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "senha": {
+          "type": "string"
+        }
+      }
+    },
+    "UsuarioAutenticado": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
 }

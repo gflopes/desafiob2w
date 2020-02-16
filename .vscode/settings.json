@@ -1,0 +1,8 @@
+{
+    "swaggergen.documentationName": "Planetas API",
+    "swaggergen.hostName": "http://localhost:3000",
+    "swaggergen.inputPath": "/Users/gflopes/Desenvolvimento/Projetos/desafio-b2w",
+    "swaggergen.outputPath": "/Users/gflopes/Desenvolvimento/Projetos/desafio-b2w",
+    "swaggerViewer.defaultPort": 3000,
+    "swaggerViewer.previewInBrowser": true
+}

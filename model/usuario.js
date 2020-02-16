@@ -15,7 +15,7 @@ const usuarioSchema = new mongoose.Schema({
   senha: {
     type: String,
     min: 6,
-    max: 12,
+    max: 20,
     required: true,
   },
   data_criacao: {
