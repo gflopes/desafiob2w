@@ -26,7 +26,7 @@ Consultar Planeta por Nome<br/>
 GET - http://localhost:3000/api/planetas/busca/nome/?valor=[nome do planeta]
 
 Listar Planeta<br/>
-GET - http://localhost:3000/api/planetas
+GET - http://localhost:3000/api/planetas<br/>
       http://localhost:3000/api/planetas/?page=[numero da pagina]
 
 
