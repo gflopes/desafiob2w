@@ -1,10 +1,11 @@
-Iniciar a API: nodemon loader.js / node loader.js
-<br/>
-Executar Testes: npm run test
+<b>Informações da API Planetas - Defasio B2W</b><br/>
 
-Swagger: http://localhost:3000/api-docs
+Iniciar a API: nodemon loader.js / node loader.js<br/>
+Executar Testes: npm run test<br/>
 
-Endpoints:
+Swagger: http://localhost:3000/api-docs<br/>
+
+Endpoints:<br/>
 
 Criação de Usuário
 POST - http://localhost:3000/api/signup
@@ -12,19 +13,19 @@ POST - http://localhost:3000/api/signup
 Autenticação de Usuário<br/>
 POST - http://localhost:3000/api/login
 
-Incluir Planeta
+Incluir Planeta<br/>
 POST - http://localhost:3000/api/planetas
 
-Excluir Planeta
+Excluir Planeta<br/>
 DELETE - http://localhost:3000/api/planetas/{:id}
 
-Consultar Planeta por ID
+Consultar Planeta por ID<br/>
 GET - http://localhost:3000/api/planetas/{:id}
 
-Consultar Planeta por Nome
+Consultar Planeta por Nome<br/>
 GET - http://localhost:3000/api/planetas/busca/nome/?valor=[nome do planeta]
 
-Listar Planeta
+Listar Planeta<br/>
 GET - http://localhost:3000/api/planetas
       http://localhost:3000/api/planetas/?page=[numero da pagina]
 
