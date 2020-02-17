@@ -1,6 +1,6 @@
 const restful = require('node-restful')
 const mongoose = restful.mongoose
-const mongoosePaginate = require('mongoose-paginate')
+const mongoosePaginate = require('mongoose-paginate-v2')
 
 const planetaSchema = new mongoose.Schema({
   nome: {

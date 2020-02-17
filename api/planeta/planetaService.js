@@ -128,41 +128,39 @@ const deletePlaneta = (req, res) => {
 
 const list = async (req, res) => {
   try {
-    const query = {}
-    const pageSize = 5
     const page = parseInt(req.query.page || 1)
-    const skip = pageSize * (page - 1)
 
     let result = {}
 
-    const [list, count] = await Promise.all([
-      Planeta.find(query)
-        .sort({ _id: 'asc' })
-        .select('-__v')
-        .skip(skip)
-        .limit(pageSize)
-        .lean()
-        .exec(),
-      Planeta.countDocuments({}),
-    ])
+    const options = {
+      page,
+      limit: 5,
+      sort: {
+        nome: 'asc',
+      },
+      select: '_id nome clima terreno',
+      lean: true,
+      leanWithId: false,
+    }
 
-    const totalPages = Math.ceil(count / pageSize)
+    const list = await Planeta.paginate({}, options)
 
     result = {
-      count: count,
-      totalPages: totalPages,
-      page: page,
-      nextPage: page < totalPages ? page + 1 : totalPages,
+      count: list.total,
+      totalPages: list.pages,
+      page: list.page,
+      nextPage: list.page < list.pages ? list.page + 1 : list.pages,
       data: [],
     }
 
-    const promise = list.map(async planeta => {
+    for (const planeta of list.docs) {
+      console.log('planeta: ' + planeta.nome)
       planeta.filmes = await getCountFilms(planeta.nome)
       planeta.filmes = (await planeta.filmes) === undefined ? 0 : planeta.filmes
+      console.log('filmes: ' + planeta.filmes)
       await result.data.push(planeta)
-    })
+    }
 
-    await Promise.all(promise)
     res.status(200).json(result)
   } catch (err) {
     return res.status(500).json({
@@ -171,12 +169,12 @@ const list = async (req, res) => {
   }
 }
 
-async function getCountFilms(planeta) {
+const getCountFilms = async planeta => {
   let results = []
   let planet = {}
 
   do {
-    const res = (await results.next)
+    const res = results.next
       ? await fetch(results.next)
       : await fetch(env.URL_SWAPI + '/planets')
 
@@ -184,7 +182,7 @@ async function getCountFilms(planeta) {
       const json = await res.json()
       results = await JSON.parse(JSON.stringify(json))
 
-      results['results'].forEach(obj => {
+      results['results'].map(obj => {
         if (obj.name === planeta) {
           planet = {
             films: obj.films.length,
