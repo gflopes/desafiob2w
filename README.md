@@ -3,7 +3,7 @@
 A API está preparada para ser instalada no Heroku.<br/>
 Abaixo seguem informações para iniciar localmente.<br/>
 
-<b>Prequisitos:</b><br/>
+<b>Prequisitos:</b>
 - NodeJS 10.16.3<br/>
 - npm 6.9.0<br/>
 - MongoDB<br/>
