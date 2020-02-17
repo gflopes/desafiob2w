@@ -1,4 +1,4 @@
-<h4>Informações da API Planetas - Defasio B2W</h4><br/>
+<h2>Informações da API Planetas - Defasio B2W</h2>
 
 A API está preparada para ser instalada no Heroku<br/>
 
