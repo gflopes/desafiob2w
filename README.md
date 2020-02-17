@@ -1,4 +1,6 @@
-<b>Informações da API Planetas - Defasio B2W</b><br/>
+<h4>Informações da API Planetas - Defasio B2W</h4><br/>
+
+A API está preparada para ser instalada no Heroku<br/>
 
 Iniciar a API: nodemon loader.js / node loader.js<br/>
 Executar Testes: npm run test<br/>
@@ -28,5 +30,3 @@ GET - http://localhost:3000/api/planetas/busca/nome/?valor=[nome do planeta]
 Listar Planeta<br/>
 GET - http://localhost:3000/api/planetas<br/>
       http://localhost:3000/api/planetas/?page=[numero da pagina]
-
-
