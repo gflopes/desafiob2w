@@ -1,5 +1,5 @@
 Iniciar a API: nodemon loader.js / node loader.js
-
+<br/>
 Executar Testes: npm run test
 
 Swagger: http://localhost:3000/api-docs
@@ -9,7 +9,7 @@ Endpoints:
 Criação de Usuário
 POST - http://localhost:3000/api/signup
 
-Autenticação de Usuário
+Autenticação de Usuário<br/>
 POST - http://localhost:3000/api/login
 
 Incluir Planeta
